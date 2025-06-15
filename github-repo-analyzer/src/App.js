@@ -17,6 +17,7 @@ const App = () => {
   const [commitActivity, setCommitActivity] = useState([]);
   const [error, setError] = useState(null);
   const [totalCommits, setTotalCommits] = useState(0);
+  const [token] = useState(localStorage.getItem("githubToken"));
 
   const handleInputChange = (event) => {
     setRepoUrl(event.target.value);
@@ -46,8 +47,6 @@ const App = () => {
       );
       return;
     }
-
-    const token = localStorage.getItem("githubToken");
 
     if (!token) {
       setError("Authorization required. Please log in with GitHub.");
@@ -130,8 +129,11 @@ const App = () => {
                     onClick={redirectToGitHub}
                     className="github-login-button"
                   >
-                    Login with GitHub
+                    {!token
+                      ? "Login with GitHub"
+                      : "Welcome to GitHub Repo Analyzer"}
                   </button>
+
                   <InputSection
                     repoUrl={repoUrl}
                     onInputChange={handleInputChange}
